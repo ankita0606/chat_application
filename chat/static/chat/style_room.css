@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(#009688 0%, #009688 130px,#d9dbd5 130px, #d9dbd5 100% );
+
+}
+
+
+
+.message{
+    line-height: 100%;
+    display: block;
+    position: relative;
+    padding: .25em .5em;
+    background: #fff;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    margin-bottom: 2em;
+    clear: both;
+    max-width:50%;
+    float:left;
+}
+
+.my-message{
+    background-color: #dcf8c6;
+    float:right !important;
+
+}
