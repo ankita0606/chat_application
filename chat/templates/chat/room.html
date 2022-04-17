@@ -4,12 +4,35 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'chat/style_message.css' %}">
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
+    <div class="container">
+        <div class="centerpart">
+            <div class="header">
+                <div class="imgtext">
+                    <div class="userimg">
+                        <img src="media/profile_pics/user.webp" class="cover">
+                    </div>
+                </div>
+            </div>
+            <div class="body_centre" id="centre_of_body">
+            <div id="message_part"></div>
+            <div class="chatbox_input" id="chat-area">
+                <input id="chat-message-input" type="text" size="100" placeholder="Type something here">
+                <ion-icon name="send-outline" id="chat-message-submit"  value="Send"></ion-icon>
+                {{ room_name|json_script:"room-name" }}
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="text/javascript">
+        const username = '{{request.user.username}}';
+    </script>
     <script type="text/javascript" src="{% static 'js/room.js' %}"></script>
 </body>
 </html>

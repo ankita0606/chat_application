@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class RoomEntryView(TemplateView):
@@ -8,8 +9,11 @@ class RoomEntryView(TemplateView):
     '''
     template_name = "chat/index.html"
 
+class AppRoom(TemplateView):
+    
+    template_name = "chat/whatsapp.html"
 
-class ChatRoomView(TemplateView):
+class ChatRoomView(LoginRequiredMixin,TemplateView ):
     '''
     This view enables users to chat in a specific room
     '''
@@ -19,3 +23,5 @@ class ChatRoomView(TemplateView):
         context = super(ChatRoomView, self).get_context_data(**kwargs)
         context['room_name'] = self.kwargs['room_name']
         return context
+
+

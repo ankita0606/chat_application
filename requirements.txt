@@ -10,14 +10,14 @@ attrs==21.4.0
 autobahn==21.11.1
 autoenv==1.0.0
 Automat==20.2.0
-awscli==1.22.22
+
 billiard==3.6.3.0
 binaryornot==0.4.4
 boto3==1.17.24
 botocore==1.23.22
 celery==5.0.5
 certifi==2020.12.5
-cffi==1.14.5
+cffi
 channels==3.0.4
 channels-redis==3.3.1
 chardet==4.0.0
@@ -72,7 +72,7 @@ psycopg2-binary==2.8.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
-pycurl==7.43.0.6
+
 Pygments==2.9.0
 PyJWT==2.0.1
 PyMuPDF==1.18.9
@@ -82,7 +82,7 @@ PySocks==1.7.1
 python-dateutil==2.8.1
 python-slugify==5.0.2
 python3-openid==3.2.0
-pytz==2020.5
+
 PyYAML==5.4.1
 redis==3.5.3
 requests==2.25.1

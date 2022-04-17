@@ -10,7 +10,17 @@ const chatSocket = new WebSocket(
 
 chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
-    document.querySelector('#chat-log').value += (data.message + '\n');
+    console.log(data)
+    const div = document.createElement('div');
+    div.className = 'message';
+    div.innerHTML = `
+      <p>${data.message}</p>
+    `;
+    if(data.username == username){
+        div.classList.add("my-message");
+    }
+    document.getElementById('message_part').appendChild(div);
+    // document.querySelector('#chat-area'). += (data.message + '\n');
 };
 
 chatSocket.onclose = function(e) {
@@ -28,7 +38,8 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value;
     chatSocket.send(JSON.stringify({
-        'message': message
+        'message': message,
+        'username': username
     }));
     messageInputDom.value = '';
 };
