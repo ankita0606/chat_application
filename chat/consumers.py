@@ -2,15 +2,11 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import Message
+from .models import User, Message
+
+
 
 class ChatConsumer(WebsocketConsumer):
-
-    @database_sync_to_async
-    def create_chat(self, msg, sender):
-        new_msg = Message.objects.create(sender=sender, msg=msg)
-        new_msg.save()
-        return new_msg
         
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -36,6 +32,8 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         username = text_data_json['username']
+        timestamp = text_data_json['timestamp']
+        room_id = text_data_json['room_id']
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
@@ -43,17 +41,28 @@ class ChatConsumer(WebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message': message,
-                'username': username
+                'username': username,
+                'timestamp': timestamp,
+                'room_id': room_id
             }
         )
+
+        # save message to db
+        Message.objects.create(author=User.objects.get(username=username), content=message, room_id=room_id)
 
     # Receive message from room group
     def chat_message(self, event):
         message = event['message']
         username = event['username']
+        timestamp = event['timestamp']
+        room_id = event['room_id']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': message,
-            'username': username
+            'username': username,
+            'timestamp': timestamp,
+            'room_id': room_id,
         }))
+
+        

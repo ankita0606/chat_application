@@ -100,6 +100,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'chat.User'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -161,5 +163,6 @@ ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_GET = True
 LOGIN_REDIRECT_URL = '/chat/'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'

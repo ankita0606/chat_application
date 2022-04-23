@@ -1,23 +1,33 @@
+{% extends "chat/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'chat/style_message.css' %}">
-</head>
-<body>
+{% block title %}Chat Room: {{room_name}}{% endblock %}
+{% block custom_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/chat_room.css' %}">
+{% endblock %}
+    
+{% block content %}
+{% block navbar %}
+{% endblock %}
     <div class="container">
         <div class="centerpart">
             <div class="header">
-                <div class="imgtext">
-                    <div class="userimg">
-                        <img src="media/profile_pics/user.webp" class="cover">
-                    </div>
+                <div id="room_name_heading" class="d-flex justify-content-between">
+                     <div >Current Room: {{room_name}}</div>
+                     <div ><a href="{% url 'room_entry' %}">Select Room</a></div>
                 </div>
+                <small>Your username: <b>{{request.user.username}}</b></small>
             </div>
             <div class="body_centre" id="centre_of_body">
-            <div id="message_part"></div>
+                <div class="chat-area" id="message_part">
+                    {% if message_list %}
+                        {% for message in message_list %}
+                            <div class="message_item {%if message.author.username == request.user.username %}my-message{%endif%}">
+                                <h3 class="message_author">{{message.author}} <small>{{message.timestamp}}</small></h3>
+                                <div class="message_content">{{message.content}}</div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             <div class="chatbox_input" id="chat-area">
                 <input id="chat-message-input" type="text" size="100" placeholder="Type something here">
                 <ion-icon name="send-outline" id="chat-message-submit"  value="Send"></ion-icon>
@@ -27,12 +37,33 @@
         </div>
     </div>
 
+<!-- Connection Lost Modal -->
+<div class="modal fade" id="LostModal" tabindex="-1" aria-labelledby="LostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Connection Lost</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Connection to the server was lost, please refresh to reconnect and continue receieving messages
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+{% endblock %}
+{% block custom_js %}
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script type="text/javascript">
         const username = '{{request.user.username}}';
+        const room_id = '{{room_id}}';
+        var objDiv = document.getElementById("message_part");
+        objDiv.scrollTop = objDiv.scrollHeight;
     </script>
     <script type="text/javascript" src="{% static 'js/room.js' %}"></script>
-</body>
-</html>
+{% endblock %}

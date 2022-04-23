@@ -12,18 +12,23 @@ chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
     console.log(data)
     const div = document.createElement('div');
-    div.className = 'message';
+    div.className = 'message_item';
     div.innerHTML = `
-      <p>${data.message}</p>
+    <h3 class="message_author">${data.username} <small>${Date(data.timestamp * 1000).slice(0, 24)}</small></h3>
+    <div class="message_content">${data.message}</div>
     `;
     if(data.username == username){
         div.classList.add("my-message");
     }
     document.getElementById('message_part').appendChild(div);
-    // document.querySelector('#chat-area'). += (data.message + '\n');
+    var objDiv = document.getElementById("message_part");
+    objDiv.scrollTop = objDiv.scrollHeight;
 };
 
 chatSocket.onclose = function(e) {
+    // $('#LostModal').modal('show');
+    var myModal = new bootstrap.Modal(document.getElementById('LostModal'))
+    myModal.show()
     console.error('Chat socket closed unexpectedly');
 };
 
@@ -39,7 +44,10 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     const message = messageInputDom.value;
     chatSocket.send(JSON.stringify({
         'message': message,
-        'username': username
+        'username': username,
+        'timestamp': Date.now(),
+        'room_id': room_id
+
     }));
     messageInputDom.value = '';
 };
